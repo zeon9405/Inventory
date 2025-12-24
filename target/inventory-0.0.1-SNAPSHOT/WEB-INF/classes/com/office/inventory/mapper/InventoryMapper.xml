@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.office.inventory.mapper.InventoryMapper">
+
+	<resultMap id="itemMap" type="com.office.inventory.vo.ItemVO">
+		<id property="item_id" column="item_id" />
+		<result property="item_name" column="item_name" />
+		<result property="cat_id" column="cat_id" />
+		<result property="item_price" column="item_price" />
+		<result property="status" column="status" />
+		<result property="quantity" column="quantity" />
+		<result property="reg_date" column="reg_date" />
+
+		<association property="categoryVO"
+			javaType="com.office.inventory.vo.CategoryVO">
+			<id property="cat_id" column="cat_id" />
+			<result property="cat_name" column="cat_name" />
+		</association>
+	</resultMap>
+
+	<select id="getAllItems" resultMap="itemMap">
+		SELECT i.*, c.cat_name
+		FROM
+		item i
+		JOIN item_category c ON i.cat_id = c.cat_id
+		ORDER BY i.item_id
+		DESC
+	</select>
+
+	<update id="decreaseQuantity">
+		UPDATE item
+		SET quantity = quantity - 1
+		WHERE item_id =
+		#{item_id} AND quantity > 0
+	</update>
+
+	<insert id="insertRental">
+		INSERT INTO rental (rental_id, emp_id, item_id,
+		rent_date, ret_exp_date)
+		VALUES (seq_rental_id.NEXTVAL, 'user01',
+		#{item_id}, SYSDATE, SYSDATE
+		+ 7)
+	</insert>
+
+	<select id="getMyRentalList"
+		resultType="com.office.inventory.vo.RentalVO">
+		SELECT
+		r.rental_id, r.emp_id, r.item_id, r.rent_date,
+		r.ret_exp_date, r.ret_act_date, i.item_name
+		FROM rental r
+		JOIN item i ON
+		r.item_id = i.item_id
+		WHERE r.emp_id = #{emp_id}
+		AND r.ret_act_date IS
+		NULL
+		ORDER BY r.rent_date DESC
+	</select>
+
+	<update id="updateReturnDate">
+		UPDATE rental
+		SET ret_act_date = SYSDATE
+		WHERE
+		rental_id = #{rental_id}
+	</update>
+
+	<update id="increaseQuantity">
+		UPDATE item
+		SET quantity = quantity + 1
+		WHERE item_id =
+		#{item_id}
+	</update>
+
+</mapper>
