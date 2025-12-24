@@ -118,6 +118,54 @@ public class InventoryController {
         // 처리가 끝나면 다시 내 대여 목록 화면으로 보냄
         return "redirect:/myRental";
     }
+	
+	@GetMapping("/admin/adminPage")
+	public String adminPage(HttpSession session) {
+		String loginId = (String) session.getAttribute("user");
+	    
+	    // POST에서도 반드시 검사해야 합니다!
+	    if (!"admin".equals(loginId)) {
+	        return "redirect:/"; 
+	    }
+	    return "inventory/admin/adminPage"; 
+	}
+	
+	@GetMapping("/admin/list")
+	public String list(HttpSession session, Model model) {
+		String loginId = (String) session.getAttribute("user");
+		List<ItemVO> itemList = inventoryService.getItemList();
+		model.addAttribute("itemList", itemList);
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+	    
+	    return "inventory/admin/list";
+	}
+	
+	@GetMapping("/admin/itemRegForm")
+	public String itemRegForm(HttpSession session) {
+		String loginId = (String) session.getAttribute("user");
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+	    
+	    return "inventory/admin/itemRegForm";
+	}
+
+	@PostMapping("/admin/insertNewItem")
+	public String insertNewItem(ItemVO itemVO, HttpSession session) {
+		//보안검사. 세션에서 아이디 꺼내기
+		String loginId = (String) session.getAttribute("user");
+		
+		//관리자가 아니면 X
+		if (loginId == null || !loginId.equals("admin")) {
+	        return "redirect:/";
+	    }
+		
+		//서비스 호출하여 DB에 저장
+		inventoryService.insertNewItem(itemVO);
+		
+		//완료 후 물품 목록 페이지로 이동
+	    return "redirect:/admin/adminPage";
+	}
 	/*
 	 * // 비품 목록 보기: http://localhost:8080/inventory/list
 	 * 

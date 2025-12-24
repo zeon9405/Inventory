@@ -20,7 +20,7 @@ public interface InventoryService {
 	
 	public void returnProcess(int rental_id, int item_id);
 	
-	
+	public void insertNewItem(ItemVO itemVO);
 	
 	
 	/*

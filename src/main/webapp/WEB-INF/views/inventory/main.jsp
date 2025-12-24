@@ -17,9 +17,14 @@
 	<c:out value="${sessionScope.user}"/>
 	<a href="/logoutPage">로그아웃</a>
 </c:if>
+
 <br>
 <a href="/itemList">물품대여리스트</a>
 <br>
 <a href="/myRental">내 대여 목록</a>
+<c:if test="${sessionScope.user == 'admin'}">
+<a href="${pageContext.request.contextPath}/admin/adminPage">관리자페이지로 이동</a>
+</c:if>
+
 </body>
 </html>

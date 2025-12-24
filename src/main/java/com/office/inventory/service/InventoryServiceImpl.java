@@ -48,6 +48,10 @@ public class InventoryServiceImpl implements InventoryService {
     	inventoryMapper.updateReturnDate(rental_id);
     }
     
+    @Override
+    public void insertNewItem(ItemVO itemVO) {
+    	inventoryMapper.insertNewItem(itemVO);
+    }
     
     /*
 

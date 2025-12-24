@@ -24,6 +24,9 @@ public interface InventoryMapper {
 	//재고 증가 실행
 	public void increaseQuantity(int item_id);
 	
+	//새로운 item 추가
+	public void insertNewItem(ItemVO itemVO);
+	
 	
 	
 	
