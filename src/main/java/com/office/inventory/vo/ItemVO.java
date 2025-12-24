@@ -11,6 +11,8 @@ public class ItemVO {
 	
 	// 조인(Join) 결과를 담기 위해 카테고리 객체를 통째로 넣음
 	private CategoryVO categoryVO;
+	
+	private EmpVO empVO;
 
 	public ItemVO() {
 	}
@@ -80,4 +82,13 @@ public class ItemVO {
 	public void setCategoryVO(CategoryVO categoryVO) {
 		this.categoryVO = categoryVO;
 	}
+
+	public EmpVO getEmpVO() {
+		return empVO;
+	}
+
+	public void setEmpVO(EmpVO empVO) {
+		this.empVO = empVO;
+	}
+	
 }

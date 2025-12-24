@@ -20,6 +20,6 @@
 <br>
 <a href="/itemList">물품대여리스트</a>
 <br>
-<a href="/itemList">내 대여 목록</a>
+<a href="/myRental">내 대여 목록</a>
 </body>
 </html>

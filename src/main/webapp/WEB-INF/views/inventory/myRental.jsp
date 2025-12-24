@@ -47,8 +47,7 @@ h2 {
 	<h2>나의 비품 대여 현황</h2>
 
 	<div class="nav">
-		<a href="${pageContext.request.contextPath}/list" class="btn-back">전체
-			목록으로 돌아가기</a>
+		<a href="/" class="btn-back">메인페이지</a>
 	</div>
 
 	<table>
@@ -78,8 +77,10 @@ h2 {
 					</c:choose></td>
 				<td><c:if test="${empty rental.ret_act_date}">
 						<%-- 아직 반납 안 한 경우에만 버튼 노출 --%>
-						<button
-							onclick="location.href='return?rental_id=${rental.rental_id}&item_id=${rental.item_id}'">반납하기</button>
+						<a
+							href="<c:url value='/returnItem?rental_id=${rental.rental_id}&item_id=${rental.item_id}'/>">
+							<button type="button">반납하기</button>
+						</a>
 					</c:if> <c:if test="${not empty rental.ret_act_date}">
 						<%-- 반납 완료된 경우 완료 날짜 표시 --%>
 						<small><fmt:formatDate value="${rental.ret_act_date}"

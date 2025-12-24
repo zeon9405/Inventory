@@ -26,61 +26,38 @@
 			<result property="cat_name" column="cat_name" />
 		</association>
 	</resultMap>
-	
-	
+
+
 	<select id="getItemList" resultMap="itemMap">
 		select i.*, c.cat_name
-		from item i
+		from
+		item i
 		join item_category c ON c.cat_id = i.cat_id
-		order by i.item_id desc
+		order by i.item_id
+		desc
 	</select>
-	
+
 	<insert id="insertRental">
-		INSERT INTO rental 
-		(rental_id, emp_id, item_id, rent_date, ret_exp_date)
+		INSERT INTO rental
+		(rental_id, emp_id, item_id,
+		rent_date, ret_exp_date)
 		VALUES
-		(0, 'user01', #{item_id}, now(), now()+ 7)
+		(0, #{empVO.emp_id},
+		#{item_id}, now(),
+		now()+ 7)
 	</insert>
-	
+
 	<update id="updateItemCnt">
 		UPDATE item
 		SET quantity = quantity - 1
-		WHERE item_id = #{item_id}
+		WHERE item_id =
+		#{item_id}
 	</update>
-	
+
 	<select id="loginCheck" resultType="Integer">
 		SELECT COUNT(*) FROM emp
 		where emp_id = #{emp_id} and password = #{password}
 	</select>
-	
-	
-	
-	
-	
-	<!-- 
-
-	<select id="getAllItems" resultMap="itemMap">
-		SELECT i.*, c.cat_name
-		FROM
-		item i
-		JOIN item_category c ON i.cat_id = c.cat_id
-		ORDER BY i.item_id
-		DESC
-	</select>
-
-	<update id="decreaseQuantity">
-		UPDATE item
-		SET quantity = quantity - 1
-		WHERE item_id =
-		#{item_id} AND quantity > 0
-	</update>
-
-	<insert id="insertRental">
-		INSERT INTO rental (rental_id, emp_id, item_id,
-		rent_date, ret_exp_date)
-		VALUES (0, 'user01',
-		#{item_id}, now(), now()+ 7)
-	</insert>
 
 	<select id="getMyRentalList"
 		resultType="com.office.inventory.vo.RentalVO">
@@ -97,18 +74,36 @@
 	</select>
 
 	<update id="updateReturnDate">
-		UPDATE rental
-		SET ret_act_date = now()
-		WHERE
-		rental_id = #{rental_id}
+		update rental
+		set ret_act_date = now()
+		where rental_id
+		= #{rendtal_id}
 	</update>
 
 	<update id="increaseQuantity">
-		UPDATE item
-		SET quantity = quantity + 1
-		WHERE item_id =
+		update item
+		set quantity = quantity + 1
+		where item_id =
 		#{item_id}
 	</update>
 
- -->
+
+
+	<!-- <select id="getAllItems" resultMap="itemMap"> SELECT i.*, c.cat_name
+		FROM item i JOIN item_category c ON i.cat_id = c.cat_id ORDER BY i.item_id
+		DESC
+	</select>
+	<update id="decreaseQuantity"> UPDATE item SET quantity =
+		quantity - 1 WHERE item_id = #{item_id} AND quantity > 0
+	</update>
+	<insert id="insertRental"> INSERT INTO rental (rental_id, emp_id, item_id,
+		rent_date,
+		ret_exp_date) VALUES (0, 'user01', #{item_id}, now(), now()+ 7)
+	</insert>
+	<update id="updateReturnDate"> UPDATE rental SET ret_act_date = now() WHERE
+		rental_id = #{rental_id}
+	</update>
+	<update id="increaseQuantity"> UPDATE
+		item SET quantity = quantity + 1 WHERE item_id = #{item_id}
+	</update> -->
 </mapper>

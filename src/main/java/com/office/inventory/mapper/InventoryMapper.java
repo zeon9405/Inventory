@@ -15,6 +15,15 @@ public interface InventoryMapper {
 	public void updateItemCnt(ItemVO itemVO);
 	
 	public int loginCheck(EmpVO empVO);
+
+	public List<RentalVO> getMyRentalList(String emp_id);
+	
+	//반납일 업데이트 실행
+	public void updateReturnDate(int rental_id);
+	
+	//재고 증가 실행
+	public void increaseQuantity(int item_id);
+	
 	
 	
 	

@@ -36,7 +36,17 @@ public class InventoryServiceImpl implements InventoryService {
     	return inventoryMapper.loginCheck(empVO);
     }
     
+    @Override
+    public List<RentalVO> getMyRentalList(String emp_id){
+    	return inventoryMapper.getMyRentalList(emp_id);
+    }
     
+    @Override
+    @Transactional
+    public void returnProcess(int rental_id, int item_id) {
+    	inventoryMapper.increaseQuantity(item_id);
+    	inventoryMapper.updateReturnDate(rental_id);
+    }
     
     
     /*

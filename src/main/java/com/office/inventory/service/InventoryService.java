@@ -15,7 +15,10 @@ public interface InventoryService {
 	public void updateItemCnt(ItemVO itemVO);
 	
 	public int loginCheck(EmpVO empVO);
+
+	public List<RentalVO> getMyRentalList(String emp_id);
 	
+	public void returnProcess(int rental_id, int item_id);
 	
 	
 	

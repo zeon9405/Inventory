@@ -30,6 +30,9 @@ h2 {
 </head>
 <body>
 	<h2>사무실 비품 재고 목록</h2>
+		<div class="nav">
+		<a href="/" class="btn-back">메인페이지</a>
+	</div>
 	<table>
         <tr>
             <th>비품번호</th>
