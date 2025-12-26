@@ -2,13 +2,16 @@ package com.office.inventory.mapper;
 
 import java.util.List;
 
+import com.office.inventory.vo.CategoryVO;
 import com.office.inventory.vo.EmpVO;
 import com.office.inventory.vo.ItemVO;
 import com.office.inventory.vo.RentalVO;
 
 public interface InventoryMapper {
 	
-	public List<ItemVO> getItemList();
+	public List<ItemVO> getItemListForUser();
+	
+	public List<ItemVO> getItemListForAdmin();
 	
 	public void insertRental(ItemVO itemVO);
 	
@@ -27,10 +30,17 @@ public interface InventoryMapper {
 	//새로운 item 추가
 	public void insertNewItem(ItemVO itemVO);
 	
+	public ItemVO getItemDetail(int item_id);
+
+	public void updateItem(ItemVO itemVO);
+
+	public void deleteItem(int item_id);
+
+	public void terminateRentalOnly(int rental_id);
+
+	public List<CategoryVO> getAllCategories();
 	
-	
-	
-	
+	List<RentalVO> getAllRentalList();
 	
 	
 	

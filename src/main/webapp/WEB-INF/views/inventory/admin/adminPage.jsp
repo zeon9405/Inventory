@@ -8,7 +8,7 @@
 </head>
 <body>
 관리자 페이지
-<a href="${pageContext.request.contextPath}/admin/list">물품등록하기</a><br>
-<a href=" ">전체 대여 목록 확인하기(미구현)</a>
+<a href="${pageContext.request.contextPath}/admin/list">물품 현황 보기</a><br>
+<a href="${pageContext.request.contextPath}/admin/allRentalList">전체 대여 목록 확인하기</a>
 </body>
 </html>

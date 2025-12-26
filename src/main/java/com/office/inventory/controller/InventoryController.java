@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.office.inventory.service.InventoryService;
+import com.office.inventory.vo.CategoryVO;
 import com.office.inventory.vo.EmpVO;
 import com.office.inventory.vo.ItemVO;
 import com.office.inventory.vo.RentalVO;
@@ -33,7 +34,7 @@ public class InventoryController {
 	@GetMapping("/itemList")
 	public String itemListPage(Model model) {
 
-		List<ItemVO> itemList = inventoryService.getItemList();
+		List<ItemVO> itemList = inventoryService.getItemListForUser();
 		model.addAttribute("itemList", itemList);
 
 		return "inventory/list";
@@ -119,6 +120,14 @@ public class InventoryController {
         return "redirect:/myRental";
     }
 	
+	@GetMapping("/returnDeletedItem")
+	public String returnDeletedItem(@RequestParam("rental_id") int rental_id) {
+	    // 재고를 건드리지 않고, 대여 테이블의 반납 완료일(ret_act_date)만 현재 시간으로 업데이트
+	    inventoryService.terminateRentalOnly(rental_id);
+	    
+	    return "redirect:/myRental"; // 다시 내 대여 목록으로
+	}
+	
 	@GetMapping("/admin/adminPage")
 	public String adminPage(HttpSession session) {
 		String loginId = (String) session.getAttribute("user");
@@ -133,7 +142,7 @@ public class InventoryController {
 	@GetMapping("/admin/list")
 	public String list(HttpSession session, Model model) {
 		String loginId = (String) session.getAttribute("user");
-		List<ItemVO> itemList = inventoryService.getItemList();
+		List<ItemVO> itemList = inventoryService.getItemListForAdmin();
 		model.addAttribute("itemList", itemList);
 	    if (!"admin".equals(loginId)) 
 	    	return "redirect:/";
@@ -142,10 +151,14 @@ public class InventoryController {
 	}
 	
 	@GetMapping("/admin/itemRegForm")
-	public String itemRegForm(HttpSession session) {
+	public String itemRegForm(HttpSession session, Model model) {
 		String loginId = (String) session.getAttribute("user");
 	    if (!"admin".equals(loginId)) 
 	    	return "redirect:/";
+	    
+	    List<CategoryVO> categoryList = inventoryService.getAllCategories();
+	    
+	    model.addAttribute("categoryList", categoryList);
 	    
 	    return "inventory/admin/itemRegForm";
 	}
@@ -156,7 +169,7 @@ public class InventoryController {
 		String loginId = (String) session.getAttribute("user");
 		
 		//관리자가 아니면 X
-		if (loginId == null || !loginId.equals("admin")) {
+		if (loginId == null ||	 !loginId.equals("admin")) {
 	        return "redirect:/";
 	    }
 		
@@ -164,7 +177,60 @@ public class InventoryController {
 		inventoryService.insertNewItem(itemVO);
 		
 		//완료 후 물품 목록 페이지로 이동
-	    return "redirect:/admin/adminPage";
+	    return "redirect:/admin/list";
+	}
+	
+	@GetMapping("/admin/editForm")	
+	public String editForm(HttpSession session, @RequestParam("item_id") int item_id, Model model) {
+		String loginId = (String) session.getAttribute("user");
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+	    
+	    //해당 id의 상세정보를 가져옴
+	    ItemVO item = inventoryService.getItemDetail(item_id);
+	    
+	    //가져온 데이터를 "item"이라는 이름으로 JSP에 넘겨줌
+	    model.addAttribute("item", item);
+	    
+		return "inventory/admin/editForm";
+	}
+	
+	@PostMapping("admin/modifyItem")
+	public String modifyItem(HttpSession session, ItemVO itemVO) {
+		String loginId = (String) session.getAttribute("user");
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+	    
+	    inventoryService.modifyItemConfirm(itemVO);
+	    
+	    return "redirect:/admin/list";
+		
+	}
+	
+	@GetMapping("admin/deleteItem")
+	public String deleteItem(HttpSession session, @RequestParam("item_id") int item_id) {
+		String loginId = (String) session.getAttribute("user");
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+		
+	    inventoryService.deleteItem(item_id);
+		
+		return "redirect:/admin/list";
+	}
+	
+	@GetMapping("admin/allRentalList")
+	public String allRentalList(HttpSession session, Model model) {
+		String loginId = (String) session.getAttribute("user");
+	    if (!"admin".equals(loginId)) 
+	    	return "redirect:/";
+
+	    List<RentalVO> allRentals = inventoryService.getAllRentalList();
+	    
+	    model.addAttribute("allRentals", allRentals);
+	    
+	    model.addAttribute("today", new java.util.Date());
+	    
+		return "inventory/admin/allRentalList";
 	}
 	/*
 	 * // 비품 목록 보기: http://localhost:8080/inventory/list

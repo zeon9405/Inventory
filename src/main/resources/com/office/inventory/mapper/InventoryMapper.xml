@@ -11,6 +11,17 @@
 		<result property="dept" column="dept" />
 		<result property="role" column="role" />
 	</resultMap>
+
+	<resultMap id="rentalMap"
+		type="com.office.inventory.vo.RentalVO">
+		<id property="rental_id" column="rental_id" />
+		<result property="emp_id" column="emp_id" />
+		<result property="item_id" column="item_id" />
+		<result property="rent_date" column="rent_date" />
+		<result property="ret_exp_date" column="ret_exp_date" />
+		<result property="ret_act_date" column="ret_act_date" />
+	</resultMap>
+
 	<resultMap id="itemMap" type="com.office.inventory.vo.ItemVO">
 		<id property="item_id" column="item_id" />
 		<result property="item_name" column="item_name" />
@@ -27,13 +38,15 @@
 		</association>
 	</resultMap>
 
-	<select id="getItemList" resultMap="itemMap">
-		select i.*, c.cat_name
-		from
-		item i
-		join item_category c ON c.cat_id = i.cat_id
-		order by i.item_id
-		desc
+	<select id="getItemListForUser" resultMap="itemMap">
+		select * from item
+		where status != 'deleted'
+		order by item_id desc
+	</select>
+
+	<select id="getItemListForAdmin" resultMap="itemMap">
+		select * from item
+		order by item_id desc
 	</select>
 
 	<insert id="insertRental">
@@ -62,12 +75,15 @@
 		resultType="com.office.inventory.vo.RentalVO">
 		SELECT
 		r.rental_id, r.emp_id, r.item_id, r.rent_date,
-		r.ret_exp_date, r.ret_act_date, i.item_name
+		r.ret_exp_date, r.ret_act_date, i.item_name,
+		i.status
 		FROM rental r
-		JOIN item i ON
+		JOIN
+		item i ON
 		r.item_id = i.item_id
 		WHERE r.emp_id = #{emp_id}
-		AND r.ret_act_date IS
+		AND
+		r.ret_act_date IS
 		NULL
 		ORDER BY r.rent_date DESC
 	</select>
@@ -92,7 +108,59 @@
 		values(#{item_name}, #{cat_id}, #{item_price}, #{quantity})
 	</insert>
 
+	<select id="getItemDetail"
+		resultType="com.office.inventory.vo.ItemVO">
+		SELECT * FROM item WHERE item_id = #{item_id}
+	</select>
 
+	<update id="updateItem">
+		update item
+		set item_name = #{item_name},
+		quantity =
+		#{quantity},
+		item_price = #{item_price}
+		where item_id = #{item_id}
+	</update>
+
+	<!-- 실제데이터 삭제에서 데이터상태변경으로 변경 -->
+	<!-- <delete id="deleteItem"> delete from item where item_id = #{item_id} 
+		</delete> -->
+
+	<update id="deleteItem">
+		UPDATE item
+		SET status = 'deleted'
+		WHERE item_id =
+		#{item_id}
+	</update>
+
+	<select id="getRentalDetail"
+		resultType="com.office.inventory.vo.RentalVO">
+		select * from rental where item_id = #{item_id}
+	</select>
+
+	<select id="getAllCategories"
+		resultType="com.office.inventory.vo.CategoryVO">
+		SELECT *
+		FROM item_category
+		ORDER BY cat_id ASC
+	</select>
+
+	<select id="getAllRentalList"
+		resultType="com.office.inventory.vo.RentalVO">
+		SELECT
+		r.rental_id,
+		r.emp_id,
+		e.name as emp_name, r.item_id,
+		i.item_name,
+		r.rent_date,
+		r.ret_exp_date,
+		r.ret_act_date,
+		i.status as item_status
+		FROM rental r
+		JOIN item i ON r.item_id = i.item_id
+		JOIN emp e ON r.emp_id = e.emp_id
+		ORDER BY r.rent_date DESC
+	</select>
 
 	<!-- <select id="getAllItems" resultMap="itemMap"> SELECT i.*, c.cat_name 
 		FROM item i JOIN item_category c ON i.cat_id = c.cat_id ORDER BY i.item_id 

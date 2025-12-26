@@ -13,6 +13,7 @@ public class RentalVO {
     // 조인해서 가져올 품목명을 위한 변수 추가
     private String item_name; 
     private String status;
+    private String emp_name;
 
     // Getter & Setter
     public int getRental_id() { return rental_id; }
@@ -38,4 +39,13 @@ public class RentalVO {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+    
+    
 }
