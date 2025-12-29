@@ -1,50 +1,48 @@
 
 -----------|| 스냅샷 복사 붙여넣기 영역 ||----------------
-
-📋 [비품 관리 프로젝트] 기술 스냅샷 (Technical Snapshot)
 1. 기술 스택 (Tech Stack)
 
-Framework: Spring MVC + MyBatis
+Backend: Java 1.8, Spring Framework 5.0.7, MyBatis
 
-Language: Java
+Frontend: JSP, JSTL, Bootstrap 5.3
 
 Database: MySQL
 
-View: JSP (JSTL: c:forEach, c:if, fmt 사용)
+Server: Apache Tomcat 9.0
 
-2. DB 구조 (Table Schema)
+2. DB 구조 (Database Design)
 
-item: 비품 정보 (item_id, item_name, cat_id, quantity, status, reg_date)
+주요 테이블: emp(사원), item(비품), item_category(카테고리), rental(대여)
 
-status: 'active' (정상), 'deleted' (논리 삭제됨)
+특이사항: rental 테이블의 반납 예정일 자동 계산(GENERATED ALWAYS AS), 외래키(FK)를 통한 데이터 무결성 확보
 
-item_category: 카테고리 정보 (cat_id, cat_name)
+3. 핵심 로직 (Core Logic)
 
-rental: 대여 기록 (rental_id, emp_id, item_id, rent_date, ret_exp_date, ret_act_date)
+Data Mapping: MyBatis를 통한 SQL과 Java 객체(VO/DTO) 간의 효율적 매핑
 
-emp: 사원 정보 (emp_id, name)
+Auth: 세션(Session) 기반 사원 인증 및 권한 관리
 
-3. 핵심 비즈니스 로직 (Core Logic)
+Maintenance: db.properties 분리를 통한 유지보수성 향상 및 설정 유연성 확보
 
-논리 삭제 (Soft Delete): 데이터를 실제로 지우지 않고 status = 'deleted'로 변경하여 관리자 페이지와 대여 이력에 남김.
+Status: 비품 상태값 변경을 통한 논리 삭제(Soft Delete) 구현
 
-재고 연동: 대여 시 재고 감소, 반납 시 재고 증가. 단, 삭제된 비품(status='deleted')을 반납할 때는 재고를 증가시키지 않음.
+4. 오늘 추가된 기능 (Today's Updates)
 
-데이터 매핑: RentalVO 내에 item_name, emp_name, status 필드를 두어 JOIN 결과 데이터를 수용함.
+문서화: 깃허브용 전문 README.md 작성 및 확장자 이슈 해결
 
-4. 오늘 추가된 기능 (Updates)
+환경 설정: 프로젝트 실행 가이드 작성 및 전용 DB 계정/권한 설정 스크립트 정리
 
-동적 카테고리 연동: itemRegForm에서 DB의 item_category 데이터를 불러와 <select> 드롭다운으로 자동 생성.
+리팩토링: root-context.xml 내 하드코딩된 정보를 외부 프로퍼티 파일로 연동
 
-관리자 전체 대여 관리: rental, item, emp 3개 테이블을 JOIN하여 모든 대여 이력을 조회하는 페이지 구현 완료.
+5. 다음에 할 일 (To-do List)
 
-UI 개선: 대여 목록 하단에 단순 '돌아가기' 버튼 추가.
+검증: 예외 상황 테스트(에러 페이지 처리 등) 및 크로스 브라우징 확인
 
-5. 다음에 할 일 (To-Do)
+정리: 코드 리팩토링(변수명, 중복 코드) 및 핵심 로직 주석 추가
 
-아이템 수정 페이지(editForm)에도 동적 카테고리 드롭다운 적용 및 기존 값 유지 로직 추가.
+기록: 포트폴리오용 시연 영상 촬영 및 스크린샷 캡처
 
-대여 목록에서 연체된 항목(오늘 날짜 기준) 시각적 강조 처리.
+확장: AWS 프리티어를 활용한 클라우드 배포 시도
 
 -------------------------------------------------------------------------------------------------------------------------------
 
