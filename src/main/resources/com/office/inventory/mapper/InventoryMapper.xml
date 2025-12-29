@@ -49,15 +49,12 @@
 		order by item_id desc
 	</select>
 
-	<insert id="insertRental">
-		INSERT INTO rental
-		(rental_id, emp_id, item_id,
-		rent_date, ret_exp_date)
-		VALUES
-		(0, #{empVO.emp_id},
-		#{item_id}, now(),
-		now()+ 7)
-	</insert>
+<insert id="insertRental">
+    INSERT INTO rental 
+    (emp_id, item_id) 
+    VALUES 
+    (#{empVO.emp_id}, #{item_id})
+</insert>
 
 	<update id="updateItemCnt">
 		UPDATE item

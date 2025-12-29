@@ -32,10 +32,16 @@ public class InventoryController {
 	}
 
 	@GetMapping("/itemList")
-	public String itemListPage(Model model) {
+	public String itemListPage(Model model, HttpSession session) {
 
+		String loginId = (String) session.getAttribute("user");
+		
 		List<ItemVO> itemList = inventoryService.getItemListForUser();
 		model.addAttribute("itemList", itemList);
+		
+		if (loginId == null) {
+			return "redirect:/loginPage";
+		}
 
 		return "inventory/list";
 	}
@@ -191,6 +197,9 @@ public class InventoryController {
 	    
 	    //가져온 데이터를 "item"이라는 이름으로 JSP에 넘겨줌
 	    model.addAttribute("item", item);
+	    
+	    List<CategoryVO> categoryList = inventoryService.getAllCategories(); 
+	    model.addAttribute("categoryList", categoryList);
 	    
 		return "inventory/admin/editForm";
 	}
