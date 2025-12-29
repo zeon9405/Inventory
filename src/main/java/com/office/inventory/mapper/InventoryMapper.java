@@ -45,25 +45,5 @@ public interface InventoryMapper {
 	
 	
 	
-	
-	
-	
-	/*
-	// 기존 목록 조회
-	public List<ItemVO> getAllItems();
 
-	// 재고 수량 1 감소
-	public int decreaseQuantity(int item_id);
-
-	// 대여 기록 삽입
-	public void insertRental(int item_id);
-
-	public List<RentalVO> getMyRentalList(String emp_id);
-
-	// 실제 반납 날짜 업데이트 (NULL이었던 ret_act_date에 오늘 날짜 기입)
-	public int updateReturnDate(int rental_id);
-
-	// 비품 수량 복구 (+1)
-	public int increaseQuantity(int item_id);
-	*/
 }

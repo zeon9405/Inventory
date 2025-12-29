@@ -7,7 +7,6 @@ public class EmpVO {
     private String dept;
     private String role;
 
-    // 기본 생성자
     public EmpVO() {}
 
 	public String getEmp_id() {

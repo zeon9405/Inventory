@@ -9,7 +9,6 @@ public class ItemVO {
 	private int quantity; // 수량 
 	private String reg_date; // 등록일
 	
-	// 조인(Join) 결과를 담기 위해 카테고리 객체를 통째로 넣음
 	private CategoryVO categoryVO;
 	
 	private EmpVO empVO;
@@ -17,7 +16,6 @@ public class ItemVO {
 	public ItemVO() {
 	}
 
-	// Getter & Setter
 	public int getItem_id() {
 		return item_id;
 	}

@@ -10,12 +10,10 @@ public class RentalVO {
     private Date ret_exp_date;   // 반납 예정일
     private Date ret_act_date;   // 실제 반납일 (NULL이면 미반납 상태)
     
-    // 조인해서 가져올 품목명을 위한 변수 추가
     private String item_name; 
     private String status;
     private String emp_name;
 
-    // Getter & Setter
     public int getRental_id() { return rental_id; }
     public void setRental_id(int rental_id) { this.rental_id = rental_id; }
 

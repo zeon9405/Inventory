@@ -103,7 +103,7 @@ CREATE TABLE rental (
   - PW: `123123`
 
 * **3) 서버 실행**
-IDE에 Tomcat 9.0 서버를 등록합니다.
+IDE(STS/Eclipse)에 Tomcat 9.0 서버를 등록합니다.
 
 프로젝트 우클릭 -> Run As -> Run on Server를 통해 실행합니다.
 
