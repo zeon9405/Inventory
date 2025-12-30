@@ -189,10 +189,8 @@ public class InventoryController {
 	    if (!"admin".equals(loginId)) 
 	    	return "redirect:/";
 	    
-	    //해당 id의 상세정보를 가져옴
 	    ItemVO item = inventoryService.getItemDetail(item_id);
-	    
-	    //가져온 데이터를 "item"이라는 이름으로 JSP에 넘겨줌
+	   
 	    model.addAttribute("item", item);
 	    
 	    List<CategoryVO> categoryList = inventoryService.getAllCategories(); 

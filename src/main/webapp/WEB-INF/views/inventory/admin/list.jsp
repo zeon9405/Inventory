@@ -53,7 +53,7 @@
                             <td class="text-center">
                                 <c:choose>
                                     <c:when test="${item.status == 'deleted'}">
-                                        <span class="badge bg-danger status-badge">삭제됨</span>
+                                        <span class="badge bg-danger status-badge">DELETED</span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="badge bg-success status-badge">${item.status}</span>

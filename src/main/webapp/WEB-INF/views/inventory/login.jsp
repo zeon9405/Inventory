@@ -44,7 +44,7 @@
     <form action="/login" id="loginForm">
         <div class="mb-3">
             <label for="empId" class="form-label text-secondary small fw-bold">아이디</label>
-            <input type="text" class="form-control form-control-lg" id="empId" name="emp_id" placeholder="사원 번호를 입력하세요">
+            <input type="text" class="form-control form-control-lg" id="empId" name="emp_id" placeholder="아이디를 입력하세요">
         </div>
         <div class="mb-4">
             <label for="empPw" class="form-label text-secondary small fw-bold">비밀번호</label>

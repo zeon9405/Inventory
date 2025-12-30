@@ -9,8 +9,7 @@
 * **개발 배경**: 기존 수동으로 관리되던 사내 비품 현황을 전산화하여 비품의 위치와 수량을 실시간으로 추적하고, 관리 효율을 높이기 위해 제작되었습니다.
 * **핵심 목표**: 
   - 비품의 실시간 재고 현황 파악 및 추적
-  - 사원별 대여 이력 관리 및 반납 예정일 준수 유도
-  - 데이터 보존을 위한 논리 삭제(Soft Delete) 로직 구현
+  - 사원별 대여 이력 관리
 
 ---
 
@@ -91,12 +90,12 @@ CREATE TABLE rental (
 
 ## 6. 설치 및 실행 방법
 * **1) DB 스크립트 실행**
-제공된 01_create_user_my.sql 파일을 실행하여 전용 데이터베이스와 계정을 생성하고
-02_create_teble_my.sql 파일을 실행하여 테이블 구조와 카테고리 기초 데이터를 생성합니다.
+제공된 01_create_user.sql 파일을 실행하여 전용 데이터베이스와 계정을 생성하고
+02_create_teble.sql 파일을 실행하여 테이블 구조와 카테고리 기초 데이터를 생성합니다.
 
 * **2) 프로젝트 설정 확인 (필요 시 수정)**
 본 프로젝트는 기본적으로 아래 설정값을 사용합니다. 만약 다른 계정 정보를 사용하고 싶다면 해당 파일을 수정하세요.
-- **파일 경로**: `src/main/resources/db.properties`
+- **파일 경로**: `src/main/webapp/WEB-INF/spring/root-context`
 - **기본 설정값**:
   - URL: `jdbc:mysql://localhost:3306/inventory_db`
   - ID: `inventory_user`
@@ -106,5 +105,3 @@ CREATE TABLE rental (
 IDE에 Tomcat 9.0 서버를 등록합니다.
 
 프로젝트 우클릭 -> Run As -> Run on Server를 통해 실행합니다.
-
-접속 주소: http://localhost:8080/
